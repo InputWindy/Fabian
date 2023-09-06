@@ -16,11 +16,11 @@
     <Filter Include="源文件\ThirdParty">
       <UniqueIdentifier>{7c646a3d-42fc-43d4-a7ed-9e174714e705}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Core">
+      <UniqueIdentifier>{66c02f7f-5839-4e1b-a1fc-570b44d9f34b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Fabian.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\depends\include\glad.c">
       <Filter>源文件\ThirdParty</Filter>
     </ClCompile>
@@ -72,10 +72,19 @@
     <ClCompile Include="..\depends\include\ImSequencer.cpp">
       <Filter>源文件\ThirdParty</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Fabian.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Fabian.h">
+      <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

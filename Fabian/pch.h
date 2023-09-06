@@ -12,6 +12,7 @@
 #include <atomic>
 #include <thread>
 #include <future>
+#include <string.h>
 
 //ThirdParty
 #include <glad.h>
