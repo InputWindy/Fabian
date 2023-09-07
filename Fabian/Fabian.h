@@ -55,3 +55,4 @@ void WindowEndFrame(FWindow& InWindow);
 
 void MaximizeViewport(FWindow& InWindow);
 
+FWindow& GetMainWindow();

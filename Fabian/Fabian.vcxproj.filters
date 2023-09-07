@@ -19,6 +19,9 @@
     <Filter Include="源文件\Core">
       <UniqueIdentifier>{66c02f7f-5839-4e1b-a1fc-570b44d9f34b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\Render">
+      <UniqueIdentifier>{c5ebcfd5-e0b4-4d19-b743-b0304b61bff0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\depends\include\glad.c">
@@ -78,13 +81,19 @@
     <ClCompile Include="Fabian.cpp">
       <Filter>源文件\Core</Filter>
     </ClCompile>
+    <ClCompile Include="BulkDataSystem.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Fabian.h">
-      <Filter>源文件</Filter>
+      <Filter>源文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="BulkDataSystem.h">
+      <Filter>源文件\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

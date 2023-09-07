@@ -150,10 +150,12 @@
     <ClCompile Include="..\depends\include\implot_items.cpp" />
     <ClCompile Include="..\depends\include\ImSequencer.cpp" />
     <ClCompile Include="Fabian.cpp" />
+    <ClCompile Include="BulkDataSystem.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fabian.h" />
+    <ClInclude Include="BulkDataSystem.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

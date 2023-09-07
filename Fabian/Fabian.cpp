@@ -105,4 +105,9 @@ void MaximizeViewport(FWindow& InWindow)
 	glfwGetFramebufferSize(InWindow.NativeWindow, &display_w, &display_h);
 	glViewport(0, 0, display_w, display_h);
 }
+FWindow& GetMainWindow()
+{
+	static FWindow GWindow;
+	return GWindow;
+}
 ;
