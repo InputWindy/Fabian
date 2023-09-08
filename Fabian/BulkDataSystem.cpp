@@ -47,6 +47,35 @@ bool FBulkDataSystem::LoadFromFile(const FImageBulkData::LoadDesc& Desc, FImageB
 };
 
 template<>
+bool FBulkDataSystem::LoadFromFile(const FStringBulkData::LoadDesc& Desc, FStringBulkData& OutModelBulkData)
+{
+	if (Desc.FileName.empty())return false;
+
+	FBulkDataSystem System;
+	System.GetLoadDesc(OutModelBulkData) = Desc;
+
+	{
+		std::ifstream File;
+		File.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+		try
+		{
+			File.open(Desc.FileName.c_str());
+			std::stringstream Stream;
+			Stream << File.rdbuf();
+
+			OutModelBulkData.pData = Stream.str();
+			File.close();
+		}
+		catch (std::ifstream::failure& e)
+		{
+			assert(0, "Fail to read file %s \n", e.what());
+		}
+	}
+
+	return true;
+}
+
+template<>
 bool FBulkDataSystem::LoadFromFile(const FModelBulkData::LoadDesc& Desc, FModelBulkData& OutModelBulkData)
 {
 	if (Desc.FileName.empty())return false;
@@ -79,6 +108,12 @@ void FBulkDataSystem::ReleaseData(FModelBulkData& InData)
 	((FModelBulkDataImpl*)&InData)->ReleaseData();
 };
 
+template<>
+void FBulkDataSystem::ReleaseData(FStringBulkData& InData)
+{
+	InData.pData.clear();
+};
+
 struct FBulkDataList
 {
 	friend class FBulkDataSystem;
@@ -103,7 +138,7 @@ public:
 		}
 	};
 
-	void Push(IBulkData* Item)
+	void Push(IBulkData*& Item)
 	{
 		if (Item)
 		{
@@ -132,7 +167,7 @@ public:
 				}
 				case EBulkDataType::BDT_String:
 				{
-					//System.ReleaseData(*(FImageBulkData*)Item);
+					System.ReleaseData(*(FStringBulkData*)Item);
 					break;
 				}
 				case EBulkDataType::BDT_Invalid:
@@ -145,9 +180,9 @@ public:
 			}
 		};
 		ForEach(ReleaseCallback);
+		LoadedList.clear();
 	};
 private:
-	//list<IBulkData*> PendingReleaseList;
 	list<IBulkData*> LoadedList;
 };
 
@@ -167,6 +202,17 @@ string FImageBulkData::GetTypeString()
 	return "Image";
 }
 
+
+EBulkDataType FStringBulkData::GetType()
+{
+	return EBulkDataType::BDT_String;
+}
+
+string FStringBulkData::GetTypeString()
+{
+	return "String";
+}
+
 EBulkDataType FModelBulkData::GetType()
 {
 	return EBulkDataType::BDT_Model;
@@ -180,6 +226,14 @@ string FModelBulkData::GetTypeString()
 void FBulkDataSystem::Register(IBulkData* InData)
 {
 	FBulkDataList& List = FBulkDataList::Get();
+
+	auto Iter = List.LoadedList.begin();
+	while (Iter != List.LoadedList.end())
+	{
+		if (*Iter == InData) return;
+		++Iter;
+	}
+
 	List.Push(InData);
 }
 
@@ -189,8 +243,15 @@ void FBulkDataSystem::ReleaseAll()
 }
 
 template<>
-void FBulkDataSystem::ForEach(decltype ([](IBulkData*) {}) && Lambda)
+void FBulkDataSystem::ForEachInternal(TBulkDataTraverseFunc&& Lambda)
 {
-	/*FBulkDataList& List = FBulkDataList::Get();
-	List.ForEach(forward<TBulkDataTraverseFunc>(Func));*/
+	FBulkDataList& List = FBulkDataList::Get();
+	List.ForEach(forward<decltype(Lambda)>(Lambda));
+}
+
+template<>
+void FBulkDataSystem::ForEachInternal(TBulkDataTraverseFunc& Lambda)
+{
+	FBulkDataList& List = FBulkDataList::Get();
+	List.ForEach(forward<decltype(Lambda)>(Lambda));
 }

@@ -1,5 +1,9 @@
+/*
+	BulkData:Data loaded from disk and cached in cpu memory.
+*/
 #pragma once
 #include "pch.h"
+#include "Template.h"
 
 enum class EBulkDataType
 {
@@ -21,51 +25,88 @@ public:
 	virtual string GetTypeString() = 0;
 };
 
-struct FImageBulkData:public IBulkData
+class FImageBulkData :public IBulkData
 {
+public:
+	friend class FBulkDataSystem;
 	struct LoadDesc
 	{
 		string FileName;
+		string Description;
+
 		int Channels = 0;
 
 		bool bHdr = false;
 	};
+public:
+	FImageBulkData() {};
+	virtual ~FImageBulkData() {};
+
+	virtual EBulkDataType GetType() override;
+	virtual string GetTypeString() override;
+
+	inline int GetW()const { return Width; };
+	inline int GetH()const { return Height; };
+	inline int GetComponents()const { return Components; };
+protected:
+	LoadDesc Desc;
 
 	void* pData = nullptr;
 
 	int Width = 0;
 	int Height = 0;
 	int Components = 0;
-
-public:
-	virtual EBulkDataType GetType() override;
-	virtual string GetTypeString() override;
-public:
-	LoadDesc Desc;
 };
 
-struct FModelBulkData :public IBulkData
+class FModelBulkData:public IBulkData
 {
+public:
+	friend class FBulkDataSystem;
 	struct LoadDesc
 	{
 		string FileName;
+		string Description;
+
 		unsigned int ImportFlags = 0;
 	};
-
-	const aiScene* pData = nullptr;
 public:
+	FModelBulkData() {};
+	virtual ~FModelBulkData() {};
+
 	virtual EBulkDataType GetType() override;
 	virtual string GetTypeString() override;
 
-	LoadDesc Desc;
 protected:
+	LoadDesc Desc;
+	
 	Assimp::Importer* Holder = nullptr;
+	const aiScene* pData = nullptr;
 };
 
+class FStringBulkData :public IBulkData
+{
+public:
+	friend class FBulkDataSystem;
+	struct LoadDesc
+	{
+		string FileName;
+		string Description;
+	};
+public:
+	FStringBulkData() {};
+	virtual ~FStringBulkData() {};
+
+	virtual EBulkDataType GetType() override;
+	virtual string GetTypeString() override;
+
+protected:
+	LoadDesc Desc;
+
+	string pData;
+};
 
 class FBulkDataSystem
 {
-	using TBulkDataTraverseFunc = decltype ([](IBulkData*) {});
 public:
 	template<typename TDesc, typename TData>
 	bool LoadFromFile(const TDesc& InDesc, TData& InData);
@@ -79,34 +120,19 @@ public:
 		ReleaseData(InData);
 		return LoadFromFile(InData.Desc, InData);
 	};
-public:
-	//============//
-	//    Gets    //
-	//============//
-	template<typename TData,typename TDesc = TData::LoadDesc>
-	TDesc& GetLoadDesc(TData& InData)
+
+	using TBulkDataTraverseFunc = TCallbackFunc<void, class IBulkData*>;
+
+	template<typename LAMBDA>
+	void ForEach(LAMBDA&& Lambda)
 	{
-		return InData.Desc;
+		ForEachInternal(forward<TBulkDataTraverseFunc&&>(TBulkDataTraverseFunc(Lambda)));
 	};
 
-	template<typename TData>
-	EBulkDataType GetBulkDataType()
+	template<typename LAMBDA>
+	void ForEach(LAMBDA& Lambda)
 	{
-		if (is_same_v<TData, FImageBulkData>)return EBulkDataType::BDT_Image;
-		else if (is_same_v<TData, FModelBulkData>)return EBulkDataType::BDT_Model;
-		else assert(0, "Invalid BulkDataType");
-
-		return EBulkDataType::BDT_Invalid;
-	};
-
-	template<typename TData>
-	string GetBulkDataTypeString(TData& InData)
-	{
-		if (is_same_v<TData, FImageBulkData>)return "Image";
-		else if (is_same_v<TData, FModelBulkData>)return "Model";
-		else assert(0, "Invalid BulkDataType");
-
-		return "Invalid";
+		ForEachInternal(forward<TBulkDataTraverseFunc&>(TBulkDataTraverseFunc(Lambda)));
 	};
 public:
 	//============//
@@ -115,14 +141,30 @@ public:
 	template<typename TData>
 	bool IsEmpty(TData& InData)
 	{
-		return InData.pData != nullptr;
+		return GetBulkData(InData) == nullptr;
 	};
 
-	template<typename LAMBDA>
-	void ForEach(LAMBDA&& Lambda);
+	template<typename TData>
+	auto& GetLoadDesc(TData& InData)
+	{
+		return InData.Desc;
+	}
 
+	template<typename TData>
+	const auto GetBulkData(TData& InData)const
+	{
+		return InData.pData;
+	}
 
 public:
 	void Register(IBulkData* InData);
 	void ReleaseAll();
+private:
+	template<typename LAMBDA>
+	void ForEachInternal(LAMBDA&& Lambda);
+
+	template<typename LAMBDA>
+	void ForEachInternal(LAMBDA& Lambda);
 };
+
+

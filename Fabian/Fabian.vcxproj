@@ -157,6 +157,7 @@
     <ClInclude Include="Fabian.h" />
     <ClInclude Include="BulkDataSystem.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Template.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

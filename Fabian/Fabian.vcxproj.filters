@@ -95,5 +95,8 @@
     <ClInclude Include="BulkDataSystem.h">
       <Filter>源文件\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Template.h">
+      <Filter>源文件\Core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
