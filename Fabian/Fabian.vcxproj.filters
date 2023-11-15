@@ -22,6 +22,33 @@
     <Filter Include="源文件\Render">
       <UniqueIdentifier>{c5ebcfd5-e0b4-4d19-b743-b0304b61bff0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{07c3d76e-de10-42eb-a546-131837589043}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Render">
+      <UniqueIdentifier>{52a0be1b-14e7-4ddb-b9df-42d0e1e774c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Core">
+      <UniqueIdentifier>{91720adc-35f4-429e-9606-26355670fc99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Render\RHI">
+      <UniqueIdentifier>{eaeaffb9-b2cf-4d32-ba72-a669302f552d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Core\Common">
+      <UniqueIdentifier>{b3ff6967-cf9f-499f-b40a-15a8a40ee145}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Render\RHI\OpenGLES">
+      <UniqueIdentifier>{590c9384-dbed-45ad-87dd-43dc15429283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Render\RHI\Vulkan">
+      <UniqueIdentifier>{fce2a698-d518-413e-99ef-0dc3e4775f1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Render\RHI\DX12">
+      <UniqueIdentifier>{add20ef2-9163-4a5d-b547-40b8c4589099}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Render\RHI\Metal">
+      <UniqueIdentifier>{f2e4fc16-c4db-44cf-8e84-8ee75fd1b51a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\depends\include\glad.c">
@@ -84,6 +111,18 @@
     <ClCompile Include="BulkDataSystem.cpp">
       <Filter>源文件\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RHI.cpp">
+      <Filter>Src\Render\RHI</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLRHI.cpp">
+      <Filter>Src\Render\RHI\OpenGLES</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLRHIStruct.cpp">
+      <Filter>Src\Render\RHI\OpenGLES</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -97,6 +136,27 @@
     </ClInclude>
     <ClInclude Include="Template.h">
       <Filter>源文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>源文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="RHIType.h">
+      <Filter>Src\Render\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="RHI.h">
+      <Filter>Src\Render\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="RHIStruct.h">
+      <Filter>Src\Render\RHI</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Src\Core\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLRHI.h">
+      <Filter>Src\Render\RHI\OpenGLES</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLRHIStruct.h">
+      <Filter>Src\Render\RHI\OpenGLES</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

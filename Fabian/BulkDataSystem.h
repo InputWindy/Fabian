@@ -108,6 +108,8 @@ protected:
 class FBulkDataSystem
 {
 public:
+	static FBulkDataSystem& Get();
+
 	template<typename TDesc, typename TData>
 	bool LoadFromFile(const TDesc& InDesc, TData& InData);
 
@@ -123,7 +125,7 @@ public:
 
 	using TBulkDataTraverseFunc = TCallbackFunc<void, class IBulkData*>;
 
-	template<typename LAMBDA>
+	/*template<typename LAMBDA>
 	void ForEach(LAMBDA&& Lambda)
 	{
 		ForEachInternal(forward<TBulkDataTraverseFunc&&>(TBulkDataTraverseFunc(Lambda)));
@@ -133,7 +135,7 @@ public:
 	void ForEach(LAMBDA& Lambda)
 	{
 		ForEachInternal(forward<TBulkDataTraverseFunc&>(TBulkDataTraverseFunc(Lambda)));
-	};
+	};*/
 public:
 	//============//
 	//   Queries  //

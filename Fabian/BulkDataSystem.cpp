@@ -75,6 +75,12 @@ bool FBulkDataSystem::LoadFromFile(const FStringBulkData::LoadDesc& Desc, FStrin
 	return true;
 }
 
+FBulkDataSystem& FBulkDataSystem::Get()
+{
+	static FBulkDataSystem msSystem;
+	return msSystem;
+};
+
 template<>
 bool FBulkDataSystem::LoadFromFile(const FModelBulkData::LoadDesc& Desc, FModelBulkData& OutModelBulkData)
 {

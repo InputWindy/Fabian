@@ -149,14 +149,25 @@
     <ClCompile Include="..\depends\include\implot_demo.cpp" />
     <ClCompile Include="..\depends\include\implot_items.cpp" />
     <ClCompile Include="..\depends\include\ImSequencer.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Fabian.cpp" />
     <ClCompile Include="BulkDataSystem.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OpenGLRHI.cpp" />
+    <ClCompile Include="OpenGLRHIStruct.cpp" />
+    <ClCompile Include="RHI.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Common.h" />
     <ClInclude Include="Fabian.h" />
     <ClInclude Include="BulkDataSystem.h" />
+    <ClInclude Include="OpenGLRHI.h" />
+    <ClInclude Include="OpenGLRHIStruct.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="RHI.h" />
+    <ClInclude Include="RHIStruct.h" />
+    <ClInclude Include="RHIType.h" />
     <ClInclude Include="Template.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
